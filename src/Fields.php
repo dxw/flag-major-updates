@@ -8,7 +8,8 @@ class Fields implements \Dxw\Iguana\Registerable
 	{
 		/** @psalm-suppress HookNotFound */
 		add_action('acf/include_fields', [$this, 'addFields']);
-		add_action( 'acf/save_post', [$this, ''], 20 );
+		/** @psalm-suppress HookNotFound */
+		add_filter('acf/update_value/name=dxw_flag_major_update', [$this, 'keepCheckboxUnchecked'], 10, 1);
 	}
 
 	public function addFields(): void
@@ -65,5 +66,10 @@ class Fields implements \Dxw\Iguana\Registerable
 		]);
 
 		acf_add_local_field_group($args);
+	}
+
+	public function keepCheckboxUnchecked(int $input): int
+	{
+		return 0;
 	}
 }

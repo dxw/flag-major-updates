@@ -9,6 +9,17 @@ describe(\Dxw\FlagMajorUpdates\Fields::class, function () {
 		expect($this->fields)->toBeAnInstanceOf(\Dxw\Iguana\Registerable::class);
 	});
 
+	describe('->register()', function () {
+		it('adds the actions', function () {
+			allow('add_action')->toBeCalled();
+			allow('add_filter')->toBeCalled();
+			expect('add_action')->toBeCalled()->once()->with('acf/include_fields', [$this->fields, 'addFields']);
+			expect('add_filter')->toBeCalled()->once()->with('acf/update_value/name=dxw_flag_major_update', [$this->fields, 'keepCheckboxUnchecked'], 10, 1);
+
+			$this->fields->register();
+		});
+	});
+
 	describe('->addFields()', function () {
 		context('acf_add_local_field_group does not exist', function () {
 			it('does nothing', function () {
@@ -39,6 +50,13 @@ describe(\Dxw\FlagMajorUpdates\Fields::class, function () {
 
 				$this->fields->addFields();
 			});
+		});
+	});
+
+	describe('->keepCheckboxUnchecked()', function () {
+		it('returns 0, indicating unchecked, regardless of input', function () {
+			expect($this->fields->keepCheckboxUnchecked(1))->toEqual(0);
+			expect($this->fields->keepCheckboxUnchecked(0))->toEqual(0);
 		});
 	});
 });
