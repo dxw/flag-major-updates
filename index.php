@@ -1,7 +1,6 @@
 <?php
 
 /**
- * WordPress Plugin
  *
  * @package     WordPressPlugin
  * @author      dxw
@@ -9,12 +8,11 @@
  * @license     MIT
  *
  * @wordpress-plugin
- * Plugin Name: WordPress Plugin
+ * Plugin Name: Flag Major Updates
  * Plugin URI: https://github.com/dxw/wordpress-plugin
- * Description: TODO
+ * Description: Optionally mark post updates as "major", and store the date of the last major update to a post.
  * Author: dxw
  * Version: 0.1.0
- * Network: True
  */
 
 $registrar = require __DIR__.'/src/load.php';
