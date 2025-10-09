@@ -8,6 +8,7 @@ class Fields implements \Dxw\Iguana\Registerable
 	{
 		/** @psalm-suppress HookNotFound */
 		add_action('acf/include_fields', [$this, 'addFields']);
+		add_action( 'acf/save_post', [$this, ''], 20 );
 	}
 
 	public function addFields(): void
@@ -24,7 +25,7 @@ class Fields implements \Dxw\Iguana\Registerable
 				[
 					'key' => 'field_68e7be5c15bec',
 					'label' => 'Major update?',
-					'name' => 'major_update',
+					'name' => 'dxw_flag_major_update',
 					'aria-label' => '',
 					'type' => 'true_false',
 					'instructions' => '',
