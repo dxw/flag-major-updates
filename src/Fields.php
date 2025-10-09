@@ -16,7 +16,8 @@ class Fields implements \Dxw\Iguana\Registerable
 			return;
 		}
 
-		acf_add_local_field_group([
+		/** @var array */
+		$args = apply_filters('dxw_flag_major_update_field_args', [
 			'key' => 'group_68e7be5bd593a',
 			'title' => 'Flag major updates',
 			'fields' => [
@@ -61,5 +62,7 @@ class Fields implements \Dxw\Iguana\Registerable
 			'description' => '',
 			'show_in_rest' => 1,
 		]);
+
+		acf_add_local_field_group($args);
 	}
 }
