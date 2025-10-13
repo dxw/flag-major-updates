@@ -2,6 +2,8 @@
 
 This plugin allows an editor to mark an update to a post as a "major update". The date of the last major update to that post is then stored, and can be retrieved to e.g. display in the front end, or used to order posts by.
 
+Requires ACF Pro.
+
 ## PHP compatibility
 
 This plugin requires PHP version 8.2 or above.
