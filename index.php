@@ -11,6 +11,7 @@
  * Plugin Name: Flag Major Updates
  * Plugin URI: https://github.com/dxw/wordpress-plugin
  * Description: Optionally mark post updates as "major", and store the date of the last major update to a post.
+ * Require: advanced-custom-fields-pro
  * Author: dxw
  * Version: 0.1.0
  */
