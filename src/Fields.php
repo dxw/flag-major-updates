@@ -91,7 +91,7 @@ class Fields implements \Dxw\Iguana\Registerable
 	public function updateLastMajorUpdateDatetime(int $input, int $postId): int
 	{
 		if ($input == 1) {
-			$modifiedDate = new \DateTimeImmutable();
+			$modifiedDate = new \DateTimeImmutable('now', new \DateTimeZone('Europe/London'));
 			/** @psalm-suppress UndefinedFunction */
 			update_field('dxw_flag_major_update_datetime', $modifiedDate->format('Y-m-d H:i:s'), $postId);
 		}
