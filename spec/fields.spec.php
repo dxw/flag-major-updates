@@ -14,7 +14,7 @@ describe(\Dxw\FlagMajorUpdates\Fields::class, function () {
 			allow('add_action')->toBeCalled();
 			allow('add_filter')->toBeCalled();
 			expect('add_action')->toBeCalled()->once()->with('acf/include_fields', [$this->fields, 'addFields']);
-			expect('add_filter')->toBeCalled()->once()->with('acf/update_value/name=dxw_flag_major_update', [$this->fields, 'keepCheckboxUnchecked'], 10, 1);
+			expect('add_filter')->toBeCalled()->once()->with('acf/update_value/name=dxw_flag_major_update', [$this->fields, 'updateLastMajorUpdateDatetime'], 10, 2);
 
 			$this->fields->register();
 		});
@@ -53,10 +53,20 @@ describe(\Dxw\FlagMajorUpdates\Fields::class, function () {
 		});
 	});
 
-	describe('->keepCheckboxUnchecked()', function () {
-		it('returns 0, indicating unchecked, regardless of input', function () {
-			expect($this->fields->keepCheckboxUnchecked(1))->toEqual(0);
-			expect($this->fields->keepCheckboxUnchecked(0))->toEqual(0);
+	describe('->updateLastMajorUpdateDatetime()', function () {
+		context('"Major update?" box is unchecked', function () {
+			it('leaves the box unchecked and does nothing else', function () {
+				expect('update_field')->not->toBeCalled();
+				expect($this->fields->updateLastMajorUpdateDatetime(0, 123))->toEqual(0);
+			});
+		});
+		context('"Major update?" box is checked', function () {
+			it('updates the last major update datetime, then returns an unchecked value', function () {
+				allow('update_field')->toBeCalled();
+				allow('\DateTimeImmutable')->toBe(new \DateTimeImmutable('2025-01-01 09:00:00'));
+				expect('update_field')->toBeCalled()->once()->with('dxw_flag_major_update_datetime', '2025-01-01 09:00:00', 123);
+				expect($this->fields->updateLastMajorUpdateDatetime(1, 123))->toEqual(0);
+			});
 		});
 	});
 });

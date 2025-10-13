@@ -9,7 +9,7 @@ class Fields implements \Dxw\Iguana\Registerable
 		/** @psalm-suppress HookNotFound */
 		add_action('acf/include_fields', [$this, 'addFields']);
 		/** @psalm-suppress HookNotFound */
-		add_filter('acf/update_value/name=dxw_flag_major_update', [$this, 'keepCheckboxUnchecked'], 10, 1);
+		add_filter('acf/update_value/name=dxw_flag_major_update', [$this, 'updateLastMajorUpdateDatetime'], 10, 2);
 	}
 
 	public function addFields(): void
@@ -44,6 +44,24 @@ class Fields implements \Dxw\Iguana\Registerable
 					'ui_on_text' => '',
 					'ui_off_text' => '',
 				],
+				[
+					'key' => 'field_bb992f860a1e0',
+					'label' => 'Last major update was:',
+					'name' => 'dxw_flag_major_update_datetime',
+					'type' => 'text',
+					'readonly' => 1,
+					'conditional_logic' => [
+						[
+							[
+								'field'    => 'field_bb992f860a1e0',
+								'operator' => '!=empty'
+							],
+						],
+					],
+					'wrapper' => [
+						'width' => '100%',
+					],
+				],
 			],
 			'location' => [
 				[
@@ -68,8 +86,13 @@ class Fields implements \Dxw\Iguana\Registerable
 		acf_add_local_field_group($args);
 	}
 
-	public function keepCheckboxUnchecked(int $input): int
+	public function updateLastMajorUpdateDatetime(int $input, int $postId): int
 	{
+		if ($input == 1) {
+			$modifiedDate = new \DateTimeImmutable();
+			/** @psalm-suppress UndefinedFunction */
+			update_field('dxw_flag_major_update_datetime', $modifiedDate->format('Y-m-d H:i:s'), $postId);
+		}
 		return 0;
 	}
 }
