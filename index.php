@@ -13,7 +13,7 @@
  * Description: Optionally mark post updates as "major", and store the date of the last major update to a post.
  * Require: advanced-custom-fields-pro
  * Author: dxw
- * Version: 0.1.0
+ * Version: 1.0.0
  */
 
 $registrar = require __DIR__.'/src/load.php';
