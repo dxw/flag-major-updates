@@ -69,4 +69,32 @@ describe(\Dxw\FlagMajorUpdates\Fields::class, function () {
 			});
 		});
 	});
+
+	describe('->preserveMajorUpdateDatetime()', function () {
+		beforeEach(function () {
+			allow('get_field')->toBeCalled()->andReturn('2025-01-01 09:00:00');
+			expect('get_field')->toBeCalled()->once()->with('dxw_flag_major_update_datetime', 123);
+		});
+		context('the new value is an empty string', function () {
+			it('returns the current value', function () {
+				expect($this->fields->preserveMajorUpdateDatetime('', 123))->toEqual('2025-01-01 09:00:00');
+			});
+		});
+		context('the new value is an empty string and the current value is not set, so returns false', function () {
+			it('returns an empty string', function () {
+				allow('get_field')->toBeCalled()->andReturn(false);
+				expect($this->fields->preserveMajorUpdateDatetime('', 123))->toEqual('');
+			});
+		});
+		context('the new value is earlier than the current value', function () {
+			it('returns the current value', function () {
+				expect($this->fields->preserveMajorUpdateDatetime('2025-01-01 08:30:00', 123))->toEqual('2025-01-01 09:00:00');
+			});
+		});
+		context('the new value is later than the current value', function () {
+			it('returns the later value', function () {
+				expect($this->fields->preserveMajorUpdateDatetime('2025-01-01 09:30:00', 123))->toEqual('2025-01-01 09:30:00');
+			});
+		});
+	});
 });

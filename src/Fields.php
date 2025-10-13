@@ -10,6 +10,8 @@ class Fields implements \Dxw\Iguana\Registerable
 		add_action('acf/include_fields', [$this, 'addFields']);
 		/** @psalm-suppress HookNotFound */
 		add_filter('acf/update_value/name=dxw_flag_major_update', [$this, 'updateLastMajorUpdateDatetime'], 10, 2);
+		/** @psalm-suppress HookNotFound */
+		add_filter('acf/update_value/name=dxw_flag_major_update_datetime', [$this, 'preserveMajorUpdateDatetime'], 10, 2);
 	}
 
 	public function addFields(): void
@@ -95,4 +97,18 @@ class Fields implements \Dxw\Iguana\Registerable
 		}
 		return 0;
 	}
+
+	public function preserveMajorUpdateDatetime(string $input, int $postId): string
+	{
+		/**
+		 * @psalm-suppress UndefinedFunction
+		 * @var string|bool $currentValue
+		 */
+		$currentValue = get_field('dxw_flag_major_update_datetime', $postId);
+		if (empty($input) || $input < $currentValue) {
+			return (string) $currentValue;
+		}
+		return $input;
+	}
+
 }
