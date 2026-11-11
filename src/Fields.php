@@ -2,8 +2,9 @@
 
 namespace Dxw\FlagMajorUpdates;
 
-class Fields implements \Dxw\Iguana\Registerable
+final class Fields implements \Dxw\Iguana\Registerable
 {
+	#[\Override]
 	public function register(): void
 	{
 		/** @psalm-suppress HookNotFound */
